@@ -5,10 +5,12 @@
         static int RoomCount = 0;
         static int roomNum;
         static double DailyRate ;
+        static string guestName;
+        static int nightsNum = 0;
         static int[] roomNumber = new int[100];
         static double[] roomRate = new double[100];
         static bool[] isReserved = new bool[100];
-        static string[] guestName = new string[100];
+        static string[] guestNames = new string[100];
         static int[] nights = new int[100];
         static DateTime[] bookingDates = new DateTime[100];
         static void Main(string[] args)
@@ -36,7 +38,7 @@
                         ViewRooms();
                         break;
                     case 3:
-                        //CheckRoomAvailability();
+                        ReserveRoom();
                         break;
                     case 4:
                         //CheckBookingDetails();
@@ -114,7 +116,47 @@
         }
         static void ReserveRoom()
         {
-            Console.WriteLine("Enter Guest Name:");
+            while (true)
+            {
+                
+                Console.WriteLine("Enter room number to reserve:");
+                int roomNum = int.Parse(Console.ReadLine());
+                bool roomFound = false;
+                for (int i = 0; i < RoomCount; i++)
+                {
+                    if (roomNumber[i] == roomNum)
+                    {
+                        roomFound = true;
+                        if (isReserved[i])
+                        {
+                            Console.WriteLine("Room is already reserved. Please choose another room.");
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Enter Guest name:");
+                            guestName = Console.ReadLine();
+                            Console.WriteLine("Enter number of nights:");
+                            nightsNum =int.Parse( Console.ReadLine());
+                            isReserved[i] = true;
+                            Console.WriteLine("Room reserved successfully.");
+                            bookingDates[i] = DateTime.Now;
+                            nights[i] = nightsNum;
+                            guestNames[i] = guestName;
+                            break;
+                        }
+                    }
+                }
+                if (!roomFound)
+                {
+                    Console.WriteLine("Room not found. Please enter a valid room number.");
+                    continue;
+                }
+                
+
+            }
+            
+
 
         }
 
