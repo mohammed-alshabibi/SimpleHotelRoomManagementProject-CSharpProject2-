@@ -22,8 +22,8 @@
             {
                 Console.WriteLine("Welcome to the Simple Hotel Room Management System");
                 Console.WriteLine("1. Add Room");
-                Console.WriteLine("2. Reserve Room");
-                Console.WriteLine("3. Check Room Availability");
+                Console.WriteLine("2. view all rooms");
+                Console.WriteLine("3. Reserve Room");
                 Console.WriteLine("4. Check Booking Details");
                 Console.WriteLine("5. Check Out");
                 Console.WriteLine("6. Exit");
