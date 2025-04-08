@@ -2,19 +2,20 @@
 {
     internal class Program
     {
-        static int RoomCount = 0;
+        const int MAX_ROOMS = 100; // System capacity
+        static int RoomCount = 0; // Number of registered rooms
         static int roomNum;
         static double DailyRate;
         static string guestName;
         static int nightsNum = 0;
         static double totalCost;
-        static int[] roomNumber = new int[100];
-        static double[] roomRate = new double[100];
-        static bool[] isReserved = new bool[100];
-        static string[] guestNames = new string[100];
-        static int[] nights = new int[100];
-        static DateTime[] bookingDates = new DateTime[100];
-        static double[] totalCosts = new double[100];
+        static int[] roomNumber = new int[MAX_ROOMS];
+        static double[] roomRate = new double[MAX_ROOMS];
+        static bool[] isReserved = new bool[MAX_ROOMS];
+        static string[] guestNames = new string[MAX_ROOMS];
+        static int[] nights = new int[MAX_ROOMS];
+        static DateTime[] bookingDates = new DateTime[MAX_ROOMS];
+        static double[] totalCosts = new double[MAX_ROOMS];
 
         static void Main(string[] args)
 
@@ -73,6 +74,12 @@
         {
             while (true)
             {
+                if (RoomCount >= MAX_ROOMS)
+                {
+                    Console.WriteLine("System capacity reached. Cannot add more rooms.");
+                    break;
+                }
+
                 Console.WriteLine("Enter room number:");
                 int newRoomNum = int.Parse(Console.ReadLine());
 
@@ -86,28 +93,28 @@
                         break;
                     }
                 }
-                // enter if room exists is true
+
                 if (roomExists)
                 {
                     Console.WriteLine("Room number already exists. Please enter a unique room number.");
                     continue;
                 }
+
                 Console.WriteLine("Enter daily rate:");
-                double newDailyRate = int.Parse(Console.ReadLine());
+                double newDailyRate = double.Parse(Console.ReadLine());
                 if (newDailyRate < 99)
                 {
-                    Console.WriteLine("Rate must be grater than 100");
+                    Console.WriteLine("Rate must be greater than or equal to 100.");
                     continue;
                 }
-                roomNum = newRoomNum;
-                DailyRate = newDailyRate;
-                roomNumber[RoomCount] = roomNum;
-                roomRate[RoomCount] = DailyRate;
+
+                roomNumber[RoomCount] = newRoomNum;
+                roomRate[RoomCount] = newDailyRate;
                 isReserved[RoomCount] = false;
                 RoomCount++;
                 Console.WriteLine("Room added successfully.");
-                Console.WriteLine("Do you want to add a new room? (y/n)");
 
+                Console.WriteLine("Do you want to add another room? (y/n)");
                 string response = Console.ReadLine();
                 if (response != "y" && response != "Y")
                 {
