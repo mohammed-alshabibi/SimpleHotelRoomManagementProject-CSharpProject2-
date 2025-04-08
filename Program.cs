@@ -29,7 +29,9 @@
                 Console.WriteLine("3. Reserve Room:");
                 Console.WriteLine("4. view All Reservations rooms:");
                 Console.WriteLine("5. search Reservation By GuestName:");
-                Console.WriteLine("6. Exit");
+                Console.WriteLine("6. Highest Paying Guest:");
+                Console.WriteLine("7. Cancel Reservation:");
+                Console.WriteLine("8. Exit");
                 Console.WriteLine("Please enter the number of choice:");
                 int choice = int.Parse(Console.ReadLine());
                 switch (choice)
@@ -50,6 +52,12 @@
                         searchReservationByGuestName();
                         break;
                     case 6:
+                        HighestPayingGuest();
+                        break;
+                    case 7:
+                        CancelReservation();
+                        break;
+                    case 8:
                         exit = true;
                         Console.WriteLine("Exiting the system. Goodbye!");
                         break;
@@ -108,7 +116,6 @@
             }
         }
 
-
         static void ViewRooms()
         {
             Console.WriteLine("Room Number\tDaily Rate\tStatus");
@@ -124,7 +131,6 @@
                 }
             }
         }
-
 
         static void ReserveRoom()
         {
@@ -193,11 +199,6 @@
             }
         }
 
-
-
-
-
-
         static void viewAllReservations()
         {
             Console.WriteLine("Guest Name\tRoom Number\tNights\tRate\tTotal Cost");
@@ -238,5 +239,57 @@
             }
         }
 
+        static void HighestPayingGuest()
+        {
+            double highestCost = 0;
+            string highestGuestName = "";
+            for (int i = 0; i < RoomCount; i++)
+            {
+                if (isReserved[i] && totalCosts[i] > highestCost)
+                {
+                    highestCost = totalCosts[i];
+                    highestGuestName = guestNames[i];
+                }
+            }
+            if (highestCost > 0)
+            {
+                Console.WriteLine($"Highest Paying Guest: {highestGuestName}, Total Cost: {highestCost}");
+            }
+            else
+            {
+                Console.WriteLine("No reservations found.");
+            }
+        }
+
+        static void CancelReservation()
+        {
+            Console.WriteLine("Enter room number to cancel reservation:");
+            int roomNum = int.Parse(Console.ReadLine());
+            bool roomFound = false;
+            for (int i = 0; i < RoomCount; i++)
+            {
+                if (roomNumber[i] == roomNum)
+                {
+                    roomFound = true;
+                    // Check if the room is reserved
+                    if (!isReserved[i])
+                    {
+                        Console.WriteLine("Room is not reserved. No cancellation needed.");
+                        break;
+                    }
+                    // Cancel the reservation
+                    isReserved[i] = false;
+                    guestNames[i] = null;
+                    nights[i] = 0;
+                    totalCosts[i] = 0;
+                    Console.WriteLine("Reservation cancelled successfully.");
+                    break;
+                }
+            }
+            if (!roomFound)
+            {
+                Console.WriteLine("Room not found. Please enter a valid room number.");
+            }
+        }
     }
 }
