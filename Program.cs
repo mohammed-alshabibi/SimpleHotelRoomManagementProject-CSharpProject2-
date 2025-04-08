@@ -81,6 +81,7 @@
         static void AddRoom()
         {
             while (true)
+            {
                 try
                 {
                     if (RoomCount >= MAX_ROOMS)
@@ -138,25 +139,32 @@
                 {
                     Console.WriteLine($"An error occurred: {ex.Message}");
                 }
-            {
-                
             }
+              
         }
 
         static void ViewRooms()
         {
-            Console.WriteLine("Room Number\tDaily Rate\tStatus");
-            for (int i = 0; i < RoomCount; i++)
+            try
             {
-                if (isReserved[i])
+                Console.WriteLine("Room Number\tDaily Rate\tStatus");
+                for (int i = 0; i < RoomCount; i++)
                 {
-                    Console.WriteLine($"{roomNumber[i]}\t\t{roomRate[i]}\t\tReserved: {guestNames[i]}, Total Cost: {totalCosts[i]}");
-                }
-                else
-                {
-                    Console.WriteLine($"{roomNumber[i]}\t\t{roomRate[i]}\t\tAvailable: Not reserved");
+                    if (isReserved[i])
+                    {
+                        Console.WriteLine($"{roomNumber[i]}\t\t{roomRate[i]}\t\tReserved: {guestNames[i]}, Total Cost: {totalCosts[i]}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{roomNumber[i]}\t\t{roomRate[i]}\t\tAvailable: Not reserved");
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while viewing rooms: {ex.Message}");
+            }
+
         }
 
         static void ReserveRoom()
