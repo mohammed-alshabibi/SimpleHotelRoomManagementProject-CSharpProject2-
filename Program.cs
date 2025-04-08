@@ -34,38 +34,46 @@
                 Console.WriteLine("7. Cancel Reservation:");
                 Console.WriteLine("8. Exit");
                 Console.WriteLine("Please enter the number of choice:");
-                int choice = int.Parse(Console.ReadLine());
-                switch (choice)
+                try
                 {
-                    case 1:
-                        AddRoom();
-                        break;
-                    case 2:
-                        ViewRooms();
-                        break;
-                    case 3:
-                        ReserveRoom();
-                        break;
-                    case 4:
-                        viewAllReservations();
-                        break;
-                    case 5:
-                        searchReservationByGuestName();
-                        break;
-                    case 6:
-                        HighestPayingGuest();
-                        break;
-                    case 7:
-                        CancelReservation();
-                        break;
-                    case 8:
-                        exit = true;
-                        Console.WriteLine("Exiting the system. Goodbye!");
-                        break;
-                    default:
-                        Console.WriteLine("Invalid choice. Please try again.");
-                        break;
+                    int choice = int.Parse(Console.ReadLine());
+                    switch (choice)
+                    {
+                        case 1:
+                            AddRoom();
+                            break;
+                        case 2:
+                            ViewRooms();
+                            break;
+                        case 3:
+                            ReserveRoom();
+                            break;
+                        case 4:
+                            viewAllReservations();
+                            break;
+                        case 5:
+                            searchReservationByGuestName();
+                            break;
+                        case 6:
+                            HighestPayingGuest();
+                            break;
+                        case 7:
+                            CancelReservation();
+                            break;
+                        case 8:
+                            exit = true;
+                            Console.WriteLine("Exiting the system. Goodbye!");
+                            break;
+                        default:
+                            Console.WriteLine("Invalid choice. Please try again.");
+                            break;
+                    }
                 }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid number.");
+                }
+
             }
 
         }
@@ -73,53 +81,65 @@
         static void AddRoom()
         {
             while (true)
-            {
-                if (RoomCount >= MAX_ROOMS)
+                try
                 {
-                    Console.WriteLine("System capacity reached. Cannot add more rooms.");
-                    break;
-                }
-
-                Console.WriteLine("Enter room number:");
-                int newRoomNum = int.Parse(Console.ReadLine());
-
-                // Check if the room number already exists
-                bool roomExists = false;
-                for (int i = 0; i < RoomCount; i++)
-                {
-                    if (roomNumber[i] == newRoomNum)
+                    if (RoomCount >= MAX_ROOMS)
                     {
-                        roomExists = true;
+                        Console.WriteLine("System capacity reached. Cannot add more rooms.");
+                        break;
+                    }
+
+                    Console.WriteLine("Enter room number:");
+                    int newRoomNum = int.Parse(Console.ReadLine());
+
+                    // Check if the room number already exists
+                    bool roomExists = false;
+                    for (int i = 0; i < RoomCount; i++)
+                    {
+                        if (roomNumber[i] == newRoomNum)
+                        {
+                            roomExists = true;
+                            break;
+                        }
+                    }
+
+                    if (roomExists)
+                    {
+                        Console.WriteLine("Room number already exists. Please enter a unique room number.");
+                        continue;
+                    }
+
+                    Console.WriteLine("Enter daily rate:");
+                    double newDailyRate = double.Parse(Console.ReadLine());
+                    if (newDailyRate < 99)
+                    {
+                        Console.WriteLine("Rate must be greater than or equal to 100.");
+                        continue;
+                    }
+
+                    roomNumber[RoomCount] = newRoomNum;
+                    roomRate[RoomCount] = newDailyRate;
+                    isReserved[RoomCount] = false;
+                    RoomCount++;
+                    Console.WriteLine("Room added successfully.");
+
+                    Console.WriteLine("Do you want to add another room? (y/n)");
+                    string response = Console.ReadLine();
+                    if (response != "y" && response != "Y")
+                    {
                         break;
                     }
                 }
-
-                if (roomExists)
+                catch (FormatException)
                 {
-                    Console.WriteLine("Room number already exists. Please enter a unique room number.");
-                    continue;
+                    Console.WriteLine("Invalid input. Please enter a valid number.");
                 }
-
-                Console.WriteLine("Enter daily rate:");
-                double newDailyRate = double.Parse(Console.ReadLine());
-                if (newDailyRate < 99)
+                catch (Exception ex)
                 {
-                    Console.WriteLine("Rate must be greater than or equal to 100.");
-                    continue;
+                    Console.WriteLine($"An error occurred: {ex.Message}");
                 }
-
-                roomNumber[RoomCount] = newRoomNum;
-                roomRate[RoomCount] = newDailyRate;
-                isReserved[RoomCount] = false;
-                RoomCount++;
-                Console.WriteLine("Room added successfully.");
-
-                Console.WriteLine("Do you want to add another room? (y/n)");
-                string response = Console.ReadLine();
-                if (response != "y" && response != "Y")
-                {
-                    break;
-                }
+            {
+                
             }
         }
 
@@ -141,6 +161,7 @@
 
         static void ReserveRoom()
         {
+            //updated this method to store the guest name with index of the room number in another array 
             while (true)
             {
                 Console.WriteLine("Enter room number to reserve:");
