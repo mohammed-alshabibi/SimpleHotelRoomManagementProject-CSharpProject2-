@@ -180,6 +180,7 @@
                         bookingDates[i] = DateTime.Now;
                         nights[i] = nightsNum;
                         guestNames[i] = guestName;
+                        bookingDates[i] = DateTime.Now;
 
                         // Calculate and store the total cost
                         totalCosts[i] = nights[i] * roomRate[i];
@@ -208,7 +209,7 @@
 
         static void viewAllReservations()
         {
-            Console.WriteLine("Guest Name\tRoom Number\tNights\tRate\tTotal Cost");
+            Console.WriteLine("Guest Name\tRoom Number\tNights\tRate\tTotal Cost\tbooking date");
             bool hasReservations = false;
 
             for (int i = 0; i < RoomCount; i++)
@@ -216,7 +217,7 @@
                 if (isReserved[i])
                 {
                     hasReservations = true;
-                    Console.WriteLine($"{guestNames[i]}\t\t{roomNumber[i]}\t\t{nights[i]}\t{roomRate[i]}\t{totalCosts[i]}");
+                    Console.WriteLine($"{guestNames[i]}\t\t{roomNumber[i]}\t\t{nights[i]}\t{roomRate[i]}\t{totalCosts[i]}\t{bookingDates[i]}");
                 }
             }
 
@@ -236,7 +237,7 @@
                 if (isReserved[i] && guestNames[i]==searchName)
                 {
                     found = true;
-                    Console.WriteLine($"Room Number: {roomNumber[i]}, Nights: {nights[i]}, Rate: {roomRate[i]}, Total Cost: {totalCosts[i]}");
+                    Console.WriteLine($"Room Number: {roomNumber[i]}, Nights: {nights[i]}, Rate: {roomRate[i]}, Total Cost: {totalCosts[i]}, booking date: {bookingDates[i]}");
                 }
             }
             if (!found)
